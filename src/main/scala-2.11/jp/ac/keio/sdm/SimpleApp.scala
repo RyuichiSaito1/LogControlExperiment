@@ -1,5 +1,6 @@
 package jp.ac.keio.sdm
 
+import scala.util._
 import java.util.Properties
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Durations, StreamingContext}
@@ -51,8 +52,15 @@ object SimpleApp {
             tokenStream.close()
           }
         }
-        // .flatMap(_ split " ")
-        // .map(s => s(10000))
+        .flatMap(_ split " ")
+        .map(s => { try {
+          s(10000)
+        } catch {
+          case runtime : RuntimeException => {
+            println("-1")
+          }
+        }
+        })
         .map(word => (word, 1))
         .reduceByKey((a, b) => a + b)
         .saveAsTextFiles("output/tweet")
