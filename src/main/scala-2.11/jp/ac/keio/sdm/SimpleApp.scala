@@ -1,7 +1,8 @@
 package jp.ac.keio.sdm
 
-import scala.util._
+import scala.collection.JavaConversions._
 import java.util.Properties
+
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Durations, StreamingContext}
 import org.apache.spark.streaming.twitter.TwitterUtils
@@ -27,7 +28,7 @@ object SimpleApp {
     val filter = if (args.isEmpty) Nil else args.toList
     val stream = TwitterUtils.createStream(ssc, None, filter)
 
-    val lc = new LogCashe()
+    val lc = new LogCache()
     val lf = new LogFilter(lc)
 
     try {
@@ -57,7 +58,9 @@ object SimpleApp {
           s(10000)
         } catch {
           case runtime : RuntimeException => {
-            println("-1")
+            lc.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
+            // Need "import scala.collection.JavaConversions._" to convert Java API to Scala API.
+            lc.foreach(kv => println(kv._1 + " -> " + kv._2))
           }
         }
         })
