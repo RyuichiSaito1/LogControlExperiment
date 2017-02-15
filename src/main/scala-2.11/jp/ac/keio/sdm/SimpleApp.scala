@@ -6,6 +6,7 @@ import java.util.Properties
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Durations, StreamingContext}
 import org.apache.spark.streaming.twitter.TwitterUtils
+
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
