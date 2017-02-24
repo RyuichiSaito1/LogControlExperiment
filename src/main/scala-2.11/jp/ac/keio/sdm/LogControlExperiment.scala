@@ -3,31 +3,45 @@ package jp.ac.keio.sdm
 import java.util.Properties
 
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.{Durations, StreamingContext}
+import org.apache.spark.streaming.{Durations, StreamingContext, Seconds}
 import org.apache.spark.streaming.twitter.TwitterUtils
 
-import org.apache.log4j.{Level, LogManager, PropertyConfigurator}
+import org.apache.log4j.{Level, LogManager, PropertyConfigurator, Logger}
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 
 /**
   * Created by Ryuichi on 11/30/2016 AD.
   */
-object SimpleApp {
+object LogControlExperiment {
 
   def main(args: Array[String]): Unit = {
 
-    /** Load Log4j properties and Set log level */
+    /** Load Log4j properties */
     val props = new Properties()
     props.load(getClass.getClassLoader.getResourceAsStream("log4j.properties"))
     PropertyConfigurator.configure(props)
+
+    /** Set log level */
     val log = LogManager.getRootLogger()
     log.setLevel(Level.WARN)
+    Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
+    Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)
+
+    // URL of the Spark cluster
+    val sparkUrl = "local[4]"
 
     /** Create a Spark Streaming */
-    val conf = new SparkConf().setMaster("local[*]").setAppName("Simple Application")
+    val conf = new SparkConf().setMaster(sparkUrl).setAppName("LogControlExperiment")
     val ssc = new StreamingContext(conf, Durations.minutes(1L))
 
+    val tweets = TwitterUtils.createStream(ssc, None)
+    val statuses = tweets.map(status => status.getText())
+    statuses.print()
+    // ssc.checkpoint(checkpointDir)
+    ssc.start()
+    ssc.awaitTermination()
+    /*
     /** Create a input stream that returns tweets received from Twitter */
     val filter = if (args.isEmpty) Nil else args.toList
     val stream = TwitterUtils.createStream(ssc, None, filter)
@@ -80,6 +94,6 @@ object SimpleApp {
 
     ssc.start()
     log.warn("Spark Streaming Start")
-    ssc.awaitTermination()
+    ssc.awaitTermination()*/
   }
 }
