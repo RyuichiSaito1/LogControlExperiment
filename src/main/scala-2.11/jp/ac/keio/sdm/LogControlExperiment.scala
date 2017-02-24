@@ -3,7 +3,7 @@ package jp.ac.keio.sdm
 import java.util.Properties
 
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.{Durations, StreamingContext, Seconds}
+import org.apache.spark.streaming.{StreamingContext, Seconds}
 import org.apache.spark.streaming.twitter.TwitterUtils
 
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator, Logger}
@@ -21,9 +21,9 @@ object LogControlExperiment {
     val props = new Properties()
     props.load(getClass.getClassLoader.getResourceAsStream("log4j.properties"))
     PropertyConfigurator.configure(props)
+    val log = LogManager.getRootLogger()
 
     /** Set log level */
-    val log = LogManager.getRootLogger()
     log.setLevel(Level.WARN)
     Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
     Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)
@@ -33,12 +33,12 @@ object LogControlExperiment {
 
     /** Create a Spark Streaming */
     val conf = new SparkConf().setMaster(sparkUrl).setAppName("LogControlExperiment")
-    val ssc = new StreamingContext(conf, Durations.minutes(1L))
+    val ssc = new StreamingContext(conf, Seconds(1))
 
     val tweets = TwitterUtils.createStream(ssc, None)
     val statuses = tweets.map(status => status.getText())
     statuses.print()
-    // ssc.checkpoint(checkpointDir)
+
     ssc.start()
     ssc.awaitTermination()
     /*
