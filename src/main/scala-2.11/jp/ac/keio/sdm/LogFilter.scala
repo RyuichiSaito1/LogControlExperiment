@@ -15,7 +15,7 @@ class LogFilter {
       println(LogCache.cache.size)
       LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
     }
-  }, 6L, 10000L, TimeUnit.MILLISECONDS);
+  }, 6L, 30000L, TimeUnit.MILLISECONDS);
 
   var isJudgement = true
 

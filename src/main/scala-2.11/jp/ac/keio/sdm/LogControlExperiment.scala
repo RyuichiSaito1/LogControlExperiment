@@ -29,19 +29,19 @@ object LogControlExperiment {
     Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)
 
     // URL of the Spark cluster
+    // Specify the number of threads
     val sparkUrl = "local[4]"
 
     /** Create a Spark Streaming */
     val conf = new SparkConf().setMaster(sparkUrl).setAppName("LogControlExperiment")
     val ssc = new StreamingContext(conf, Seconds(1))
 
-    val tweets = TwitterUtils.createStream(ssc, None)
+    /*val tweets = TwitterUtils.createStream(ssc, None)
     val statuses = tweets.map(status => status.getText())
     statuses.print()
 
     ssc.start()
-    ssc.awaitTermination()
-    /*
+    ssc.awaitTermination()*/
     /** Create a input stream that returns tweets received from Twitter */
     val filter = if (args.isEmpty) Nil else args.toList
     val stream = TwitterUtils.createStream(ssc, None, filter)
@@ -79,7 +79,9 @@ object LogControlExperiment {
         }
       }
 
-      .flatMap(_ split " ")
+      // Return array of words
+      .flatMap(_.split(" "))
+      // Explicitly Refer to the 1,000th index
       .map(s => { try {
         s(10000)
       } catch {
@@ -88,12 +90,13 @@ object LogControlExperiment {
         }
       }
       })
+      // .map(s => s(10000))
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
       .saveAsTextFiles("output/tweet")
 
     ssc.start()
     log.warn("Spark Streaming Start")
-    ssc.awaitTermination()*/
+    ssc.awaitTermination()
   }
 }
