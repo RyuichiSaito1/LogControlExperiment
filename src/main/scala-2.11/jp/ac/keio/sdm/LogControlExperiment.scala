@@ -42,7 +42,7 @@ object LogControlExperiment {
 
     ssc.start()
     ssc.awaitTermination()*/
-    /** Create a input stream that returns tweets received from Twitter */
+    /*/** Create a input stream that returns tweets received from Twitter */
     val filter = if (args.isEmpty) Nil else args.toList
     val stream = TwitterUtils.createStream(ssc, None, filter)
 
@@ -79,7 +79,7 @@ object LogControlExperiment {
         }
       }
 
-      // Return array of words
+      /*/*// Return array of words
       .flatMap(_.split(" "))
       // Explicitly Refer to the 1,000th index
       .map(s => { try {
@@ -88,15 +88,24 @@ object LogControlExperiment {
         case runtime : RuntimeException => {
           LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
         }
-      }
-      })
-      // .map(s => s(10000))
+      }*/
+      })*/
+      /*.flatMap(_.split(" "))
+      .map(s => s(10000))*/
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
-      .saveAsTextFiles("output/tweet")
-
+      // .saveAsTextFiles("output/tweet")
+      .saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/output/tweet")*/
+    try {
+      Streaming.doStreaming(args, ssc)
+    } catch {
+      case runtime: RuntimeException => {
+        LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
+      }
+    }
+    // Streaming.doStreaming(args, ssc)
     ssc.start()
     log.warn("Spark Streaming Start")
     ssc.awaitTermination()
+    }
   }
-}
