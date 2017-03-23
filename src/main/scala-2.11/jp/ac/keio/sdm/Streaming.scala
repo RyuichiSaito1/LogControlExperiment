@@ -2,9 +2,7 @@ package jp.ac.keio.sdm
 
 import java.util.Properties
 
-import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{StreamingContext, Seconds}
-import org.apache.spark.SparkContext
 
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.log4j.{Level, LogManager, Logger, PropertyConfigurator}
@@ -55,8 +53,17 @@ object Streaming {
           tokenStream.close()
         }
       }
-      .flatMap(_.split(" "))
-      .map(s => s(10000))
+      /*.flatMap(_.split(" "))
+      .map(s => s(10000))*/
+      .map(s => {
+      try {
+        s(10000)
+      } catch {
+        case runtime: RuntimeException => {
+          LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
+        }
+      }
+      })
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
       .saveAsTextFiles("output/tweet")
