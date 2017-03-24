@@ -1,11 +1,12 @@
 package jp.ac.keio.sdm
 
 import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
+import com.typesafe.scalalogging.{LazyLogging, StrictLogging}
 
 /**
   * Created by Ryuichi on 1/6/2017 AD.
   */
-class LogFilter {
+class LogFilter extends LazyLogging {
 
   /** Execute log output from Log Cache at 60 second intervals */
   val service  = new ScheduledThreadPoolExecutor(1);
@@ -13,7 +14,8 @@ class LogFilter {
     override def run(): Unit = {
       println("Execute Thread")
       println(LogCache.cache.size)
-      LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
+      // LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
+      LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> " + kv._2))
     }
   }, 6L, 30000L, TimeUnit.MILLISECONDS);
 

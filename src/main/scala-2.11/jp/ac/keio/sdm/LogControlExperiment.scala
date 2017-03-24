@@ -6,24 +6,25 @@ import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{StreamingContext, Seconds}
 
 import org.apache.log4j.{Level, LogManager, PropertyConfigurator, Logger}
+import com.typesafe.scalalogging.{LazyLogging, StrictLogging}
 
 /**
   * Created by Ryuichi on 11/30/2016 AD.
   */
-object LogControlExperiment {
+object LogControlExperiment extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
 
     /** Load Log4j properties */
-    val props = new Properties()
+    /*val props = new Properties()
     props.load(getClass.getClassLoader.getResourceAsStream("log4j.properties"))
     PropertyConfigurator.configure(props)
-    val log = LogManager.getRootLogger()
+    val log = LogManager.getRootLogger()*/
 
     /** Set log level */
-    log.setLevel(Level.WARN)
+    /*log.setLevel(Level.WARN)
     Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
-    Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)
+    Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)*/
 
     // URL of the Spark cluster
     // Specify the number of threads
@@ -37,7 +38,8 @@ object LogControlExperiment {
     Streaming.doStreaming(args, ssc)
 
     ssc.start()
-    log.warn("Spark Streaming Start")
+    // log.warn("Spark Streaming Start")
+    logger.info("Spark Streaming Start")
     ssc.awaitTermination()
     }
   }
