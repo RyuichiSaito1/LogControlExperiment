@@ -1,7 +1,8 @@
-package jp.ac.keio.sdm
+package jp.ac.keio.sdm.ConcurrentLogControl
 
 import java.util.concurrent.ConcurrentHashMap
-import collection.JavaConverters._
+
+import scala.collection.JavaConverters._
 
 /**
   * Created by Ryuichi on 1/11/2018 AD.

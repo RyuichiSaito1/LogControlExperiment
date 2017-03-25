@@ -1,13 +1,9 @@
-package jp.ac.keio.sdm
+package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.util.Properties
-
-import org.apache.spark.streaming.{StreamingContext, Seconds}
-
-import org.apache.spark.streaming.twitter.TwitterUtils
-import org.apache.log4j.{Level, LogManager, Logger, PropertyConfigurator}
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
+import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.twitter.TwitterUtils
 
 
 /**

@@ -1,7 +1,8 @@
-package jp.ac.keio.sdm
+package jp.ac.keio.sdm.ConcurrentLogControl
 
 import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
-import com.typesafe.scalalogging.{LazyLogging, StrictLogging}
+
+import com.typesafe.scalalogging.LazyLogging
 
 /**
   * Created by Ryuichi on 1/6/2017 AD.

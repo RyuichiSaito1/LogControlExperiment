@@ -1,12 +1,8 @@
-package jp.ac.keio.sdm
+package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.util.Properties
-
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.spark.SparkConf
-import org.apache.spark.streaming.{StreamingContext, Seconds}
-
-import org.apache.log4j.{Level, LogManager, PropertyConfigurator, Logger}
-import com.typesafe.scalalogging.{LazyLogging, StrictLogging}
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
   * Created by Ryuichi on 11/30/2016 AD.
