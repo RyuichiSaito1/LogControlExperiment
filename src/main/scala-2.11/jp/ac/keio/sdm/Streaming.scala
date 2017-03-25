@@ -55,16 +55,16 @@ object Streaming {
       }
       /*.flatMap(_.split(" "))
       .map(s => s(10000))*/
-      /*.map(s => {
+      .map(s => {
       try {
         s(10000)
       } catch {
-        case runtime: RuntimeException => {
+        case runtime : RuntimeException => {
           // LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
-          LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.getStackTrace.toString())
+          LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime)
         }
       }
-      })*/
+      })
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
       .saveAsTextFiles("output/tweet")

@@ -9,9 +9,9 @@ import collection.JavaConverters._
 // Check Serializable
 object LogCache extends Serializable {
 
-  final val cache = new ConcurrentHashMap[String, String].asScala
+  final val cache = new ConcurrentHashMap[String, Object].asScala
 
-  def putIfAbsent(key: String, value: String): Option[String] = {
+  def putIfAbsent(key: String, value: Object): Option[Object] = {
     cache.putIfAbsent(key, value)
   }
 }

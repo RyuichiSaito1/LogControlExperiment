@@ -15,7 +15,8 @@ class LogFilter extends LazyLogging {
       println("Execute Thread")
       println(LogCache.cache.size)
       // LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
-      LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> " + kv._2))
+      // LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> " + kv._2.getStackTrace()))
+      LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> ",kv._2))
     }
   }, 6L, 30000L, TimeUnit.MILLISECONDS);
 
