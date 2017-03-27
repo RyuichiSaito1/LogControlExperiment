@@ -11,17 +11,6 @@ object LogControlExperiment extends LazyLogging {
 
   def main(args: Array[String]): Unit = {
 
-    /** Load Log4j properties */
-    /*val props = new Properties()
-    props.load(getClass.getClassLoader.getResourceAsStream("log4j.properties"))
-    PropertyConfigurator.configure(props)
-    val log = LogManager.getRootLogger()*/
-
-    /** Set log level */
-    /*log.setLevel(Level.WARN)
-    Logger.getLogger("org.apache.spark").setLevel(Level.WARN)
-    Logger.getLogger("org.apache.spark.streaming.NetworkInputTracker").setLevel(Level.INFO)*/
-
     // URL of the Spark cluster
     // Specify the number of threads
     val sparkUrl = "local[4]"
