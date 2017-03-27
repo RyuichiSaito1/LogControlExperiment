@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/experiment.iml" filepath="$PROJECT_DIR$/.idea/modules/experiment.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/experiment-build.iml" filepath="$PROJECT_DIR$/.idea/modules/experiment-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/logcontrolexperiment.iml" filepath="$PROJECT_DIR$/.idea/modules/logcontrolexperiment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/logcontrolexperiment-build.iml" filepath="$PROJECT_DIR$/.idea/modules/logcontrolexperiment-build.iml" />
     </modules>
   </component>
 </project>
