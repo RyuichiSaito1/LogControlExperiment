@@ -11,7 +11,7 @@ import com.typesafe.scalalogging.LazyLogging
 class LogFilter extends LazyLogging {
 
   val properties = new Properties()
-  properties.load(new FileInputStream("/Users/Ryuichi/IdeaProjects/experiment/src/main/resources/logControl.properties"))
+  properties.load(new FileInputStream("/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/resources/logControl.properties"))
   /** Execute log output from Log Cache at 60 second intervals */
   val service  = new ScheduledThreadPoolExecutor(1);
   val future = service.scheduleAtFixedRate(new Runnable {
