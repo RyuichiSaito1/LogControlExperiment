@@ -1,7 +1,6 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
 import java.util.concurrent.ConcurrentHashMap
-
 import scala.collection.JavaConverters._
 
 /**

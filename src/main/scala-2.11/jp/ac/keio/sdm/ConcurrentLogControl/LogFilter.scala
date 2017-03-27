@@ -3,7 +3,6 @@ package jp.ac.keio.sdm.ConcurrentLogControl
 import java.io.FileInputStream
 import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
 import java.util.Properties
-
 import com.typesafe.scalalogging.LazyLogging
 
 /**

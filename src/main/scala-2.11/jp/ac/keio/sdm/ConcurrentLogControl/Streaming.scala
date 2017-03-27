@@ -5,7 +5,6 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.twitter.TwitterUtils
 
-
 /**
   * Created by Ryuichi on 3/23/2017 AD.
   */
