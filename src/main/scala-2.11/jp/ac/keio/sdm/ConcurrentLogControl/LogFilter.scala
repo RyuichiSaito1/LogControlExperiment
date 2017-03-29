@@ -20,7 +20,9 @@ class LogFilter extends LazyLogging {
       println(LogCache.cache.size)
       // LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
       // LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> " + kv._2.getStackTrace()))
-      LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> ",kv._2))
+      // LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> ",kv._2))
+      val groupedMap = LogCache.cache.groupBy(_._1 drop(23))
+      groupedMap.foreach(println(_))
     }
   }, 6L, properties.getProperty("logFiltering.timeUnit.milliSeconds").toLong, TimeUnit.MILLISECONDS);
 

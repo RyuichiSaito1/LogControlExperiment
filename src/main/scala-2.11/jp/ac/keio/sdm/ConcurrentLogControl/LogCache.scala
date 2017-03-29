@@ -14,4 +14,9 @@ object LogCache extends Serializable {
   def putIfAbsent(key: String, value: Object): Option[Object] = {
     cache.putIfAbsent(key, value)
   }
+
+  def put(key: String, value: Object): Option[Object] = {
+    cache.put(key, value)
+  }
+
 }
