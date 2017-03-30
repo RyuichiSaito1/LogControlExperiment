@@ -11,12 +11,11 @@ object LogCache extends Serializable {
 
   final val cache = new ConcurrentHashMap[String, Object].asScala
 
-  def putIfAbsent(key: String, value: Object): Option[Object] = {
-    cache.putIfAbsent(key, value)
-  }
-
   def put(key: String, value: Object): Option[Object] = {
     cache.put(key, value)
   }
 
+  def putIfAbsent(key: String, value: Object): Option[Object] = {
+    cache.putIfAbsent(key, value)
+  }
 }

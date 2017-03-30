@@ -16,28 +16,23 @@ class LogFilter extends LazyLogging {
   val service  = new ScheduledThreadPoolExecutor(1);
   val future = service.scheduleAtFixedRate(new Runnable {
     override def run(): Unit = {
-      println("Execute Thread")
-      println(LogCache.cache.size)
-      // LogCache.cache.foreach(kv => println(kv._1 + " -> " + kv._2))
-      // LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> " + kv._2.getStackTrace()))
-      // LogCache.cache.foreach(kv => logger.warn(kv._1 + " -> ",kv._2))
+
+      println("Cache size ->" + LogCache.cache.size)
       val groupedMap = LogCache.cache.groupBy(_._1 drop(23))
-      // groupedMap.foreach(println(_))
+
       val iterator = groupedMap.iterator
       while(iterator.hasNext) {
         val(k, v) = iterator.next()
         // val groupedList = groupedMap.get(k)
-        // println(k + "=" + v)
-        val listSize = v.size
+        val numberOfException = v.size
         // println(groupedList)
-        println(listSize)
-        val key = v.head
-        println(key._1)
-        val value = LogCache.cache.get(key._1)
-        // val exception = value.asInstanceOf[RuntimeException]
-        // println(value.get)
-        logger.warn(key._1.toString + " -> " , value.get)
+        println("Number of Exception ->" + numberOfException)
+        val headValue = v.head
+        println("Head of Value ->" + headValue._1)
+        val optionValue = LogCache.cache.get(headValue._1)
+        logger.warn(headValue._1.toString + " -> " , optionValue.get)
       }
+
     }
   }, 6L, properties.getProperty("logFiltering.timeUnit.milliSeconds").toLong, TimeUnit.MILLISECONDS);
 

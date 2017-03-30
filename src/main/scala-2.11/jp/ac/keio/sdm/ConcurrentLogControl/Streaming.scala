@@ -60,7 +60,6 @@ object Streaming {
           // val date = "%tY-%<tm-%<td %<tH:%<tM:%<tS" format new Date
           val date = new Date()
           val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-          // LogCache.putIfAbsent(Thread.currentThread().getId + "MessageId", runtime.toString())
           LogCache.put(dateFormat.format(date) + Thread.currentThread().getId + "MessageId", runtime)
         }
       }
