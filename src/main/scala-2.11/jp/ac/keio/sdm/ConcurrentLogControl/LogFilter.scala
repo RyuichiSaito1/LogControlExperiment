@@ -24,13 +24,19 @@ class LogFilter extends LazyLogging {
       while(iterator.hasNext) {
         val(k, v) = iterator.next()
         // val groupedList = groupedMap.get(k)
-        val numberOfException = v.size
+        // Error Count
+        val exceptionCount = v.size
         // println(groupedList)
-        println("Number of Exception ->" + numberOfException)
+        println("Number of Exception ->" + exceptionCount)
+        // Get head value among the list collection
         val headValue = v.head
         println("Head of Value ->" + headValue._1)
         val optionValue = LogCache.cache.get(headValue._1)
-        logger.warn(headValue._1.toString + " -> " , optionValue.get)
+        // If Option value is null, Don't output the Exception Stacktrace
+        optionValue match {
+          case  Some(x) => logger.warn(headValue._1.toString + " -> " , x)
+          case None => logger.warn(headValue._1.toString)
+        }
       }
 
     }
