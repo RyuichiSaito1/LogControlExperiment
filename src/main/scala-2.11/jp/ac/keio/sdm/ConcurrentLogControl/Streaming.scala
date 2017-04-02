@@ -1,7 +1,5 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.util.Date
-import java.text.SimpleDateFormat
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import org.apache.spark.streaming.StreamingContext
@@ -57,10 +55,7 @@ object Streaming {
         s(10000)
       } catch {
         case runtime : RuntimeException => {
-          // val date = "%tY-%<tm-%<td %<tH:%<tM:%<tS" format new Date
-          val date = new Date()
-          val dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS")
-          LogCache.put(dateFormat.format(date) + Thread.currentThread().getId + "MessageId", runtime)
+          LogCache.put(Thread.currentThread().getId + "MessageId", runtime)
         }
       }
       })

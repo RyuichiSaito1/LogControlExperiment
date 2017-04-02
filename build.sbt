@@ -13,6 +13,8 @@ libraryDependencies ++= Seq(
   // Must set "provided" to compile normally.
   // "org.apache.spark" %% "spark-streaming" % "2.0.1" % "provided",
   "org.apache.spark" %% "spark-streaming" % "2.0.1",
+  // This project forked from scala-time since it seems that scala-time is no longer maintained.
+  "com.github.nscala-time" %% "nscala-time" % "2.16.0",
   // There is compatible with Spark 2.x.
   // Must match version with "spark-streaming".
   "org.apache.bahir" %% "spark-streaming-twitter" % "2.0.1" exclude("org.spark-project.spark", "unused"),
