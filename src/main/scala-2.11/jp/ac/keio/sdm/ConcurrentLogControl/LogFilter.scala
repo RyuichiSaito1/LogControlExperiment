@@ -1,24 +1,22 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.io.FileInputStream
 import java.util.concurrent.{ScheduledThreadPoolExecutor, TimeUnit}
-import java.util.Properties
-import com.typesafe.scalalogging.LazyLogging
 
 /**
   * Created by Ryuichi on 1/6/2017 AD.
   */
-class LogFilter extends LazyLogging {
+class LogFilter extends LogControlExperimentFigure {
 
-  val properties = new Properties()
-  properties.load(new FileInputStream("/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/resources/logControl.properties"))
+  final val threadPoolSize = 1
+  final val dropSize = 23
+
   /** Execute log output from Log Cache at 60 second intervals */
-  val service  = new ScheduledThreadPoolExecutor(1);
+  val service  = new ScheduledThreadPoolExecutor(threadPoolSize);
   val future = service.scheduleAtFixedRate(new Runnable {
     override def run(): Unit = {
 
       println("Cache size ->" + LogCache.cache.size)
-      val groupedMap = LogCache.cache.groupBy(_._1 drop(23))
+      val groupedMap = LogCache.cache.groupBy(_._1 drop(dropSize))
 
       val iterator = groupedMap.iterator
       while(iterator.hasNext) {

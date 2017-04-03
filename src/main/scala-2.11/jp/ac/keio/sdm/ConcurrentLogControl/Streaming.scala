@@ -8,7 +8,7 @@ import org.apache.spark.streaming.twitter.TwitterUtils
 /**
   * Created by Ryuichi on 3/23/2017 AD.
   */
-object Streaming {
+object Streaming extends LogControlExperimentFigure{
 
   def doStreaming(args: Array[String], ssc: StreamingContext): Unit = {
 
@@ -55,7 +55,7 @@ object Streaming {
         s(10000)
       } catch {
         case runtime : RuntimeException => {
-          LogCache.put(Thread.currentThread().getId + "MessageId", runtime)
+          LogCache.put("EXP-E000001", runtime)
         }
       }
       })

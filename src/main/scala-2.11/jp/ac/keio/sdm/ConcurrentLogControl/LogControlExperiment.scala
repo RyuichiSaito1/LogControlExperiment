@@ -1,15 +1,16 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import com.typesafe.scalalogging.LazyLogging
 import org.apache.spark.SparkConf
 import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
   * Created by Ryuichi on 11/30/2016 AD.
   */
-object LogControlExperiment extends LazyLogging {
+object LogControlExperiment extends LogControlExperimentFigure {
 
   final val threadCount = 4
+  final val applicationName = "LogControlExperiment"
+  final val batchDuration = 1
 
   def main(args: Array[String]): Unit = {
 
@@ -18,14 +19,13 @@ object LogControlExperiment extends LazyLogging {
     val sparkUrl = "local[" + threadCount + "]"
 
     /** Create a Spark Streaming */
-    val conf = new SparkConf().setMaster(sparkUrl).setAppName("LogControlExperiment")
-    val ssc = new StreamingContext(conf, Seconds(1))
+    val conf = new SparkConf().setMaster(sparkUrl).setAppName(applicationName)
+    val ssc = new StreamingContext(conf, Seconds(batchDuration))
 
     // Execute streaming
     Streaming.doStreaming(args, ssc)
 
     ssc.start()
-    // log.warn("Spark Streaming Start")
     logger.info("Spark Streaming Start")
     ssc.awaitTermination()
     }
