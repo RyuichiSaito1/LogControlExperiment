@@ -18,6 +18,7 @@ object Streaming extends LogControlExperimentFigure{
 
     /** Create a Log Filter that periodically output logs from a Log Cache */
     val logFilter = new LogFilter
+    logFilter.executeFilter()
 
     stream
 
