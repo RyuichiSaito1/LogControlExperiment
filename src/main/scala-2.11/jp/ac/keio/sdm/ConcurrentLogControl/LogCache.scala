@@ -7,7 +7,6 @@ import com.github.nscala_time.time.Imports._
 /**
   * Created by Ryuichi on 1/11/2018 AD.
   */
-// Check Serializable
 object LogCache extends Serializable {
 
   final val cache = new ConcurrentHashMap[String, Object].asScala
@@ -23,5 +22,10 @@ object LogCache extends Serializable {
     val currentDateTime = DateTime.now
     val formattedDateTime = formatter.print(currentDateTime)
     cache.putIfAbsent(formattedDateTime + Thread.currentThread().getId.toString +  messageId + MessageController.getMessage(messageId), exception)
+  }
+
+  def get(dateTime: String): Option[Object] = {
+    val optionValue = cache.get(dateTime)
+    optionValue
   }
 }

@@ -10,7 +10,7 @@ class LogFilter extends LogControlExperimentFigure {
   final val threadPoolSize = 1
   final val dropSize = 23
 
-  /** Execute log output from Log Cache at 60 second intervals */
+  /** Execute log output from Log Cache at regular intervals */
   val service  = new ScheduledThreadPoolExecutor(threadPoolSize);
   val future = service.scheduleAtFixedRate(new Runnable {
     override def run(): Unit = {
@@ -21,10 +21,8 @@ class LogFilter extends LogControlExperimentFigure {
       val iterator = groupedMap.iterator
       while(iterator.hasNext) {
         val(k, v) = iterator.next()
-        // val groupedList = groupedMap.get(k)
         // Error Count
         val exceptionCount = v.size
-        // println(groupedList)
         println("Number of Exception ->" + exceptionCount)
         // Get head value among the list collection
         val headValue = v.head
@@ -40,16 +38,12 @@ class LogFilter extends LogControlExperimentFigure {
     }
   }, 6L, properties.getProperty("logFiltering.timeUnit.milliSeconds").toLong, TimeUnit.MILLISECONDS);
 
-  var isJudgement = true
+  /*var isJudgement = true
 
-  /*while(isJudgement){
+  while(isJudgement){
     if (future.isCancelled() || future.isDone()){
       service.shutdown()
       isJudgement = false
     }
   }*/
-  if (future.isCancelled() || future.isDone()){
-    service.shutdown()
-    isJudgement = false
-  }
 }

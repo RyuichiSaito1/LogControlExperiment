@@ -17,7 +17,7 @@ object Streaming extends LogControlExperimentFigure{
     val stream = TwitterUtils.createStream(ssc, None, filter)
 
     /** Create a Log Filter that periodically output logs from a Log Cache */
-    val lf = new LogFilter
+    val logFilter = new LogFilter
 
     stream
 
