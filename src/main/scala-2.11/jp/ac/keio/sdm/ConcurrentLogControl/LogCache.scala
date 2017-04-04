@@ -1,7 +1,7 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.util.concurrent.ConcurrentHashMap
 import scala.collection.JavaConverters._
+import java.util.concurrent.ConcurrentHashMap
 import com.github.nscala_time.time.Imports._
 
 /**
@@ -28,4 +28,5 @@ object LogCache extends Serializable {
     val optionValue = cache.get(dateTime)
     optionValue
   }
+
 }

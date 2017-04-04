@@ -1,9 +1,9 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import org.apache.lucene.analysis.ja.JapaneseAnalyzer
-import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 import org.apache.spark.streaming.StreamingContext
 import org.apache.spark.streaming.twitter.TwitterUtils
+import org.apache.lucene.analysis.ja.JapaneseAnalyzer
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
 
 /**
   * Created by Ryuichi on 3/23/2017 AD.
@@ -23,7 +23,7 @@ object Streaming extends LogControlExperimentFigure{
     stream
 
       .flatMap { status =>
-        val text = status.getText
+        val text = status.getText()
         // Create a Analyzer
         val analyzer = new JapaneseAnalyzer
         // Returns a TokenStream suitable for fieldName, tokenizing the contents of reader
@@ -48,7 +48,9 @@ object Streaming extends LogControlExperimentFigure{
           tokenStream.end()
           tokenStream.close()
         }
+
       }
+
       /*.flatMap(_.split(" "))
       .map(s => s(10000))*/
       .map(s => {
@@ -65,5 +67,7 @@ object Streaming extends LogControlExperimentFigure{
       .saveAsTextFiles("output/tweet")
       // Save to the Amazon S3 bucket
       // .saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/output/tweet")
+
   }
+
 }

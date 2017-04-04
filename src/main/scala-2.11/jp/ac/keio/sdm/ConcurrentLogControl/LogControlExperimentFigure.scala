@@ -1,8 +1,8 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import com.typesafe.scalalogging.LazyLogging
 import java.io.FileInputStream
 import java.util.Properties
+import com.typesafe.scalalogging.LazyLogging
 
 /**
   * Created by Ryuichi on 4/3/2017 AD.
