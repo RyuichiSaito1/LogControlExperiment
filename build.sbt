@@ -1,10 +1,10 @@
-name := "experiment"
+name := "LogControlExperiment"
 
 version := "1.0"
 
-organization := "jp.ac.keio.sdm"
-
 scalaVersion := "2.11.8"
+
+organization := "jp.ac.keio.sdm"
 
 // Cached resolution is an experimental feature of sbt added since 0.13.7 to address the scalability performance of dependency resolution.
 updateOptions := updateOptions.value.withCachedResolution(true)

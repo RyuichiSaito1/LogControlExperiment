@@ -28,6 +28,6 @@ object LogControlExperiment extends LogControlExperimentFigure {
     ssc.start()
     logger.info("Spark Streaming Start")
     ssc.awaitTermination()
-    }
-
   }
+
+}
