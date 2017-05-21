@@ -51,9 +51,9 @@ object Streaming extends LogControlExperimentFigure{
 
       }
 
-      /*.flatMap(_.split(" "))
-      .map(s => s(10000))*/
-      .map(s => {
+      .flatMap(_.split(" "))
+      .map(s => s(10000))
+      /*.map(s => {
       try {
         s(10000)
       } catch {
@@ -61,7 +61,7 @@ object Streaming extends LogControlExperimentFigure{
           LogCache.put("EXP-E000001", runtime)
         }
       }
-      })
+      })*/
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
       .saveAsTextFiles("output/tweet")

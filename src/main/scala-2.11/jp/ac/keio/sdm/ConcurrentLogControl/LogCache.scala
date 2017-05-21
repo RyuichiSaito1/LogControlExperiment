@@ -15,13 +15,13 @@ object LogCache extends Serializable {
   def put(messageId: String, exception: Object): Option[Object] = {
     val currentDateTime = DateTime.now
     val formattedDateTime = formatter.print(currentDateTime)
-    cache.put(formattedDateTime + Thread.currentThread().getId.toString + messageId + MessageController.getMessage(messageId), exception)
+    cache.put(formattedDateTime + " " + Thread.currentThread().getId.toString + " " + messageId + " " + MessageController.getMessage(messageId), exception)
   }
 
   def putIfAbsent(messageId: String, exception: Object): Option[Object] = {
     val currentDateTime = DateTime.now
     val formattedDateTime = formatter.print(currentDateTime)
-    cache.putIfAbsent(formattedDateTime + Thread.currentThread().getId.toString +  messageId + MessageController.getMessage(messageId), exception)
+    cache.putIfAbsent(formattedDateTime + " " + Thread.currentThread().getId.toString + " " + " " + messageId + MessageController.getMessage(messageId), exception)
   }
 
   def get(dateTime: String): Option[Object] = {
