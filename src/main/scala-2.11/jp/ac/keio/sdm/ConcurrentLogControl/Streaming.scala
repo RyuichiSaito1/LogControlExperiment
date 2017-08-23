@@ -10,17 +10,16 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
   */
 object Streaming extends LogControlExperimentFigure{
 
-  def doStreaming(args: Array[String], ssc: StreamingContext): Unit = {
+  def doStreaming(args: Array[String], ssc: StreamingContext) {
 
-    /** Create a input stream that returns tweets received from Twitter */
-    val filter = if (args.isEmpty) Nil else args.toList
-    val stream = TwitterUtils.createStream(ssc, None, filter)
+    // Create a DStream that returns tweets received from Twitter.
+    val twitterStream = TwitterUtils.createStream(ssc, None)
 
     /** Create a Log Filter that periodically output logs from a Log Cache */
     val logFilter = new LogFilter
     logFilter.executeFilter()
 
-    stream
+    twitterStream
 
       .flatMap { status =>
         val text = status.getText()
@@ -52,8 +51,16 @@ object Streaming extends LogControlExperimentFigure{
       }
 
       .flatMap(_.split(" "))
-      .map(s => s(10000))
       /*.map(s => {
+        try {
+          s(10000)
+        } catch {
+          case runtime : RuntimeException => {
+            logger.warn("EXP-E000001", runtime)
+          }
+        }
+      })*/
+      .map(s => {
       try {
         s(10000)
       } catch {
@@ -61,7 +68,7 @@ object Streaming extends LogControlExperimentFigure{
           LogCache.put("EXP-E000001", runtime)
         }
       }
-      })*/
+      })
       .map(word => (word, 1))
       .reduceByKey((a, b) => a + b)
       .saveAsTextFiles("output/tweet")
