@@ -8,26 +8,22 @@ import org.apache.spark.streaming.{Seconds, StreamingContext}
   */
 object LogControlExperiment extends LogControlExperimentFigure {
 
-  final val threadCount = 4
-  final val applicationName = "LogControlExperiment"
-  final val batchDuration = 1
+  val ThreadCount = 4
+  val ApplicationName = "LogControlExperiment"
+  val BatchDuration = 1
+  // Define the number of threads.
+  val SparkUrl = "local[" + ThreadCount + "]"
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]) {
 
-    // URL of the Spark cluster
-    // Specify the number of threads
-    val sparkUrl = "local[" + threadCount + "]"
+    // Configure Spark Properties.
+    val conf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName)
+    val ssc = new StreamingContext(conf, Seconds(BatchDuration))
 
-    /** Create a Spark Streaming */
-    val conf = new SparkConf().setMaster(sparkUrl).setAppName(applicationName)
-    val ssc = new StreamingContext(conf, Seconds(batchDuration))
-
-    // Execute streaming
+    // Execute Spark Streaming.
     Streaming.doStreaming(args, ssc)
 
     ssc.start()
-    logger.info("Spark Streaming Start")
     ssc.awaitTermination()
   }
-
 }
