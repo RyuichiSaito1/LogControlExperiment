@@ -12,5 +12,4 @@ class LogControlExperimentFigure extends LazyLogging{
   val properties = new Properties()
   properties.load(new FileInputStream("/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/resources/logControl.properties"))
   MessageController.initialize()
-
 }
