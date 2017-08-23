@@ -15,7 +15,7 @@ object Streaming extends LogControlExperimentFigure{
     // Create a DStream that returns tweets received from Twitter.
     val twitterStream = TwitterUtils.createStream(ssc, None)
 
-    /** Create a Log Filter that periodically output logs from a Log Cache */
+    // Create a Log Filter that periodically output logs from a Log Cache.
     val logFilter = new LogFilter
     logFilter.executeFilter()
 
@@ -65,7 +65,7 @@ object Streaming extends LogControlExperimentFigure{
         s(10000)
       } catch {
         case runtime : RuntimeException => {
-          LogCache.put("EXP-E000001", runtime)
+          LogCache.putIfAbsent("EXP-E000001", runtime)
         }
       }
       })

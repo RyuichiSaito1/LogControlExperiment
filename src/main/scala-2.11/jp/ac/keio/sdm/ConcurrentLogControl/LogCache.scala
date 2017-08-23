@@ -9,14 +9,8 @@ import com.github.nscala_time.time.Imports._
   */
 object LogCache extends Serializable {
 
-  final val cache = new ConcurrentHashMap[String, Object].asScala
-  final val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
-
-  def put(messageId: String, exception: Object): Option[Object] = {
-    val currentDateTime = DateTime.now
-    val formattedDateTime = formatter.print(currentDateTime)
-    cache.put(formattedDateTime + " " + Thread.currentThread().getId.toString + " " + messageId + " " + MessageController.getMessage(messageId), exception)
-  }
+  val cache = new ConcurrentHashMap[String, Object].asScala
+  val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS")
 
   def putIfAbsent(messageId: String, exception: Object): Option[Object] = {
     val currentDateTime = DateTime.now
@@ -28,5 +22,4 @@ object LogCache extends Serializable {
     val optionValue = cache.get(dateTime)
     optionValue
   }
-
 }
