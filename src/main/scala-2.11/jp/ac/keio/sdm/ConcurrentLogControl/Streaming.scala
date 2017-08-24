@@ -1,6 +1,6 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import org.apache.spark.streaming.StreamingContext
+import org.apache.spark.streaming.{StreamingContext, Duration}
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.lucene.analysis.ja.JapaneseAnalyzer
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
@@ -9,6 +9,25 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute
   * Created by Ryuichi on 3/23/2017 AD.
   */
 object Streaming extends LogControlExperimentFigure{
+
+  // Compute the top hashtags for the last 5 seconds
+  val windowLength = new Duration(5 * 1000)
+
+  def createTweetsWordCount(ssc: StreamingContext, slideInterval: Duration): StreamingContext = {
+
+    // Create a Twitter DStream for the input source.
+    val twitterStream = TwitterUtils.createStream(ssc, None)
+
+    // Parse the tweets and gather the hashTags.
+    val hashTagStream = twitterStream.map(_.getText).flatMap(_.split(" ")).filter(_.startsWith("#"))
+
+    // Compute the counts of each hashtag by window.
+    val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
+
+    windowedhashTagCountStream.saveAsTextFiles("output/tweet")
+
+    ssc
+  }
 
   def doStreaming(args: Array[String], ssc: StreamingContext) {
 
