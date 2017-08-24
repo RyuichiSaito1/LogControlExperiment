@@ -93,7 +93,5 @@ object Streaming extends LogControlExperimentFigure{
       .saveAsTextFiles("output/tweet")
       // Save to the Amazon S3 bucket
       // .saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/output/tweet")
-
   }
-
 }

@@ -10,7 +10,6 @@ object LogControlExperiment extends LogControlExperimentFigure {
 
   val ThreadCount = 4
   val ApplicationName = "LogControlExperiment"
-  val BatchDuration = 1
   // Recompute the top hashtags every 1 second
   val SlideInterval = new Duration(1 * 1000)
   // Define the number of threads.

@@ -18,5 +18,4 @@ object MessageController {
     val messageBody = properties.getProperty(messageID)
     messageBody
   }
-
 }
