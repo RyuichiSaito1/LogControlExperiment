@@ -19,7 +19,7 @@ object Streaming extends LogControlExperimentFigure{
     val twitterStream = TwitterUtils.createStream(ssc, None)
 
     // Parse the tweets and gather the hashTags.
-    val hashTagStream = twitterStream.map(_.getText).flatMap(_.split(" ")).filter(_.startsWith("#"))
+    val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" ")).filter(_.startsWith("#"))
 
     // Compute the counts of each hashtag by window.
     val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
