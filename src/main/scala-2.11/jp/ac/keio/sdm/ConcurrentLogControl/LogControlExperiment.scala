@@ -18,8 +18,8 @@ object LogControlExperiment extends LogControlExperimentFigure {
   def main(args: Array[String]) {
 
     // Configure Spark Properties.
-    val conf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName)
-    val ssc = new StreamingContext(conf, SlideInterval)
+    val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName)
+    val ssc = new StreamingContext(sparkConf, SlideInterval)
 
     // Create a Log Filter that periodically output logs from a Log Cache.
     val logFilter = new LogFilter
