@@ -10,11 +10,12 @@ class LogFilter extends LogControlExperimentFigure {
   val ThreadPoolSize = 1
   // 23 = HH-DD-MM_HH:MI:SS.FFF
   val DropSizeFromHead = 23
+  val service  = new ScheduledThreadPoolExecutor(ThreadPoolSize);
 
   def executeFilter() {
 
     // Execute log output from Log Cache at regular intervals.
-    val service  = new ScheduledThreadPoolExecutor(ThreadPoolSize);
+    // val service  = new ScheduledThreadPoolExecutor(ThreadPoolSize);
     val future = service.scheduleAtFixedRate(new Runnable {
       override def run() {
 
@@ -35,5 +36,9 @@ class LogFilter extends LogControlExperimentFigure {
         }
       }
     }, 6L, properties.getProperty("logFiltering.timeUnit.milliSeconds").toLong, TimeUnit.MILLISECONDS);
+  }
+
+  def shutdownScheduledThreadPoolExecutor() {
+    service.shutdown()
   }
 }
