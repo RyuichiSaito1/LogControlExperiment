@@ -25,9 +25,10 @@ object Streaming extends LogControlExperimentFigure{
     val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
       .map(s =>{
       def randomInt(n: Double): Int = floor(random * n).toInt
-      randomInt(11) % 2 match {
-        case 0 => s(10000)
-        case 1 => s.toInt
+      randomInt(11)  match {
+        case 1 | 3 | 5 | 7 | 9 => s(10000)
+        case 0 | 2 | 4 | 6 | 8 => s.toInt
+        case 10 => s.wait()
       }
     })
 
