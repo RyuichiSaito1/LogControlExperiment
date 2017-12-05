@@ -25,17 +25,18 @@ object Streaming extends LogControlExperimentFigure{
     val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
       .map(s =>{
       def randomInt(n: Double): Int = floor(random * n).toInt
-      randomInt(11)  match {
-        case 1 | 3 | 5 | 7 | 9 => s(10000)
-        case 0 | 2 | 4 | 6 | 8 => s.toInt
-        case 10 => s.wait()
+      randomInt(21)  match {
+        case 1 | 4 | 7 | 10 | 13 | 16 | 19 => s(10000)
+        case 2 | 5 | 8 | 11 | 14 | 17 => s.toInt
+        case 3 | 6 | 9 | 12 | 15 | 18 => s.getClass()
+        case 20 => s.wait()
       }
     })
 
     // Use Filtering Method.
     /*val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
-      .map(s => try {s(10000)} catch { case runtime : RuntimeException => { LogCache.putIfAbsent("EXP-E000001", runtime)}})*/
-    // Output file.
+        .map(s => try {s(10000)} catch { case runtime : RuntimeException => { LogCache.putIfAbsent("EXP-E000001", runtime)}})*/
+      // Output file.
     /*val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
       .map(s => try {s(10000)} catch { case runtime : RuntimeException => { logger.warn("EXP-E000001", runtime)}})*/
 
