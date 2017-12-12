@@ -1,6 +1,5 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.io.FileInputStream
 import java.util.Properties
 
 /**
@@ -11,7 +10,8 @@ object MessageController {
   val properties = new Properties()
 
   def initialize(): Unit = {
-    properties.load(new FileInputStream("src/main/resources/message.properties"))
+    // properties.load(new FileInputStream("src/main/resources/message.properties"))
+    properties.load(getClass.getResourceAsStream("/message.properties"))
   }
 
   def getMessage(messageID: String): String = {
