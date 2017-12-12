@@ -11,7 +11,7 @@ object MessageController {
   val properties = new Properties()
 
   def initialize(): Unit = {
-    properties.load(new FileInputStream("/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/resources/message.properties"))
+    properties.load(new FileInputStream("src/main/resources/message.properties"))
   }
 
   def getMessage(messageID: String): String = {
