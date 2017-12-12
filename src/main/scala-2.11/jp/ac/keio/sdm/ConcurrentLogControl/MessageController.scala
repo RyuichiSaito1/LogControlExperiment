@@ -10,7 +10,6 @@ object MessageController {
   val properties = new Properties()
 
   def initialize(): Unit = {
-    // properties.load(new FileInputStream("src/main/resources/message.properties"))
     properties.load(getClass.getResourceAsStream("/message.properties"))
   }
 
