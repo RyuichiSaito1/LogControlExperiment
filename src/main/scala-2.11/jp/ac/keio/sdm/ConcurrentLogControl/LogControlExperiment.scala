@@ -8,7 +8,7 @@ import org.apache.spark.streaming.{Duration, StreamingContext}
   */
 object LogControlExperiment extends LogControlExperimentFigure {
 
-  val ThreadCount = 4
+  val ThreadCount = "*"
   val ApplicationName = "LogControlExperiment"
   // Recompute the top hashtags every 1 second
   val SlideInterval = new Duration(1 * 1000)
@@ -18,13 +18,16 @@ object LogControlExperiment extends LogControlExperimentFigure {
   def main(args: Array[String]) {
 
     // Configure Spark Properties.
+    // Development Mode
     val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName)
+    // Product Mode
+    //val sparkConf = new SparkConf().setAppName(ApplicationName)
     val ssc = new StreamingContext(sparkConf, SlideInterval)
 
     // Create a Log Filter that periodically output logs from a Log Cache.
     val logFilter = new LogFilter
     logFilter.executeFilter()
-    // Execute Spark Streaming.
+    //Execute Spark Streaming.
     Streaming.createTweetsWordCount(ssc, SlideInterval)
 
     ssc.start()

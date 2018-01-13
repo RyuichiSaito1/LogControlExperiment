@@ -11,8 +11,10 @@ updateOptions := updateOptions.value.withCachedResolution(true)
 
 libraryDependencies ++= Seq(
   // Must set "provided" to compile normally.
-  // "org.apache.spark" %% "spark-streaming" % "2.0.1" % "provided",
+  // Development Mode.
   "org.apache.spark" %% "spark-streaming" % "2.0.1",
+  // Product Mode.
+  // "org.apache.spark" %% "spark-streaming" % "2.0.1" % "provided",
   // This project forked from scala-time since it seems that scala-time is no longer maintained.
   "com.github.nscala-time" %% "nscala-time" % "2.16.0",
   // There is compatible with Spark 2.x.
@@ -25,3 +27,8 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.2.2" % "runtime",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0" % "compile"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}

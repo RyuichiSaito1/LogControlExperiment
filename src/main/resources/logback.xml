@@ -14,6 +14,7 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
+        <!--<file>/mnt/var/log/application/application.log</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- <fileNamePattern>/var/log/info-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern> -->
             <fileNamePattern>/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/scala-2.11/jp/ac/keio/sdm/ConcurrentLogControl/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>

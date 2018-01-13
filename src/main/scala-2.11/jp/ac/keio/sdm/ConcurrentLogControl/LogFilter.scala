@@ -15,7 +15,6 @@ class LogFilter extends LogControlExperimentFigure {
   def executeFilter() {
 
     // Execute log output from Log Cache at regular intervals.
-    // val service  = new ScheduledThreadPoolExecutor(ThreadPoolSize);
     val future = service.scheduleAtFixedRate(new Runnable {
       override def run() {
 
