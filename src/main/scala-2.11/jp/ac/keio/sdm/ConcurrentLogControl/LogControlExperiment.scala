@@ -19,19 +19,19 @@ object LogControlExperiment extends LogControlExperimentFigure {
 
     // Configure Spark Properties.
     // Development Mode
-    val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName)
+    val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName).set("spark.task.maxFailures","100")
     // Product Mode
     //val sparkConf = new SparkConf().setAppName(ApplicationName)
     val ssc = new StreamingContext(sparkConf, SlideInterval)
 
     // Create a Log Filter that periodically output logs from a Log Cache.
-    val logFilter = new LogFilter
-    logFilter.executeFilter()
+    // val logFilter = new LogFilter
+    // logFilter.executeFilter()
     //Execute Spark Streaming.
     Streaming.createTweetsWordCount(ssc, SlideInterval)
 
     ssc.start()
     ssc.awaitTermination()
-    logFilter.shutdownScheduledThreadPoolExecutor()
+    // logFilter.shutdownScheduledThreadPoolExecutor()
   }
 }
