@@ -25,11 +25,17 @@ object Streaming extends LogControlExperimentFigure{
     val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
       .map(s =>{
       def randomInt(n: Double): Int = floor(random * n).toInt
-      randomInt(21)  match {
-        case 1 | 4 | 7 | 10 | 13 | 16 | 19 => s(10000)
-        case 2 | 5 | 8 | 11 | 14 | 17 => s.toInt
-        case 3 | 6 | 9 | 12 | 15 | 18 => s.getClass()
-        case 0 | 20 => s.wait()
+      try {
+        randomInt(21) match {
+          case 1 | 4 | 7 | 10 | 13 | 16 | 19 => s(10000)
+          case 2 | 5 | 8 | 11 | 14 | 17 => s.toInt
+          case 3 | 6 | 9 | 12 | 15 | 18 => s.getClass()
+          case 0 | 20 => s.wait()
+        }
+      } catch {
+        case e: IllegalArgumentException => logger.error("A", e.printStackTrace())
+        case e: NumberFormatException => logger.error("B", e.printStackTrace())
+        case e: IllegalMonitorStateException => logger.error("C", e.printStackTrace())
       }
     })
 
