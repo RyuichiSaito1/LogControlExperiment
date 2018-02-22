@@ -44,14 +44,34 @@ object Streaming extends LogControlExperimentFigure{
       }*/
 
         val word = s.substring(0, 5)
-        System.out.println("Word = " + word)
+        try {
+          System.out.println("Word = " + word)
+        } catch {
+          case e: IndexOutOfBoundsException =>
+            logger.error("", e.printStackTrace())
+        }
 
-        val charArrayWord = s.toCharArray
+        val charArrayWord = word.toCharArray
         charArrayWord.foreach( s =>
-          if (japaneseUnicodeBlock.contains(UnicodeBlock.of(s))) {
-            System.out.print(s.toByte.toString)
+          try {
+            if (japaneseUnicodeBlock.contains(UnicodeBlock.of(s))) {
+              throw new UnicodeBlockException()
+            }
+          } catch {
+            case e: UnicodeBlockException =>
+              logger.error("", e.printStackTrace())
           }
         )
+
+        try {
+          if (!word.startsWith("#")) {
+            throw new IllegalTweetException()
+          }
+        } catch {
+          case e: IllegalTweetException =>
+            logger.error("", e.printStackTrace())
+        }
+
     })
 
     // Use Filtering Method.
@@ -72,3 +92,8 @@ object Streaming extends LogControlExperimentFigure{
     ssc
   }
 }
+
+final case class UnicodeBlockException(private val message: String = "",
+                                       private val cause: Throwable = None.orNull)extends Exception(message, cause)
+final case class IllegalTweetException(private val message: String = "",
+                                       private val cause: Throwable = None.orNull)extends Exception(message, cause)
