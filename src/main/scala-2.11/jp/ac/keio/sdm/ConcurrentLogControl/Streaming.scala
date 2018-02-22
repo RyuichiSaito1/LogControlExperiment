@@ -1,10 +1,12 @@
 /* Copyright (c) 2017 Ryuichi Saito, Keio University. All right reserved. */
 package jp.ac.keio.sdm.ConcurrentLogControl
 
+import java.lang.Character.UnicodeBlock
+
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.spark.streaming.{Duration, StreamingContext}
 
-import scala.math._
+import scala.collection.mutable
 
 /**
   * Created by Ryuichi on 3/23/2017 AD.
@@ -13,6 +15,9 @@ object Streaming extends LogControlExperimentFigure{
 
   // Compute the top hashtags for the last 5 seconds
   val windowLength = new Duration(5 * 1000)
+
+  val japaneseUnicodeBlock = new mutable.HashSet[UnicodeBlock]()
+      .+=(UnicodeBlock.HIRAGANA, UnicodeBlock.HIRAGANA, UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS)
 
   def createTweetsWordCount(ssc: StreamingContext, slideInterval: Duration): StreamingContext = {
 
@@ -23,8 +28,8 @@ object Streaming extends LogControlExperimentFigure{
     // val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" ")).filter(_.startsWith("#"))
     // Throw Exception
     val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
-      .map(s =>{
-      def randomInt(n: Double): Int = floor(random * n).toInt
+      .map(s => {
+      /*  def randomInt(n: Double): Int = floor(random * n).toInt
       try {
         randomInt(21) match {
           case 1 | 4 | 7 | 10 | 13 | 16 | 19 => s(10000)
@@ -36,7 +41,17 @@ object Streaming extends LogControlExperimentFigure{
         case e: IllegalArgumentException => logger.error("A", e.printStackTrace())
         case e: NumberFormatException => logger.error("B", e.printStackTrace())
         case e: IllegalMonitorStateException => logger.error("C", e.printStackTrace())
-      }
+      }*/
+
+        val word = s.substring(0, 5)
+        System.out.println("Word = " + word)
+
+        val charArrayWord = s.toCharArray
+        charArrayWord.foreach( s =>
+          if (japaneseUnicodeBlock.contains(UnicodeBlock.of(s))) {
+            System.out.print(s.toByte.toString)
+          }
+        )
     })
 
     // Use Filtering Method.
