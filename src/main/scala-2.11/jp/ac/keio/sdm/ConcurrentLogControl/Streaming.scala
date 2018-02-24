@@ -1,6 +1,7 @@
 /* Copyright (c) 2017 Ryuichi Saito, Keio University. All right reserved. */
 package jp.ac.keio.sdm.ConcurrentLogControl
 
+import org.apache.spark.storage.BlockManagerMessages.HasCachedBlocks
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.spark.streaming.{Duration, StreamingContext}
 
@@ -62,7 +63,7 @@ object Streaming extends LogControlExperimentFigure{
       try {
         validator.isExistsHashTag(s)
       } catch {
-        case e: HashTagException =>
+        case e: Exception =>
           logger.error("Hash Tag contains Tweet messages", e)
       }
     })
