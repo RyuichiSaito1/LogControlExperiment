@@ -1,12 +1,8 @@
 /* Copyright (c) 2017 Ryuichi Saito, Keio University. All right reserved. */
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import java.lang.Character.UnicodeBlock
-
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.spark.streaming.{Duration, StreamingContext}
-
-import scala.collection.mutable
 
 /**
   * Created by Ryuichi on 3/23/2017 AD.
@@ -16,8 +12,8 @@ object Streaming extends LogControlExperimentFigure{
   // Compute the top hashtags for the last 5 seconds
   val windowLength = new Duration(5 * 1000)
 
-  val japaneseUnicodeBlock = new mutable.HashSet[UnicodeBlock]()
-      .+=(UnicodeBlock.HIRAGANA, UnicodeBlock.HIRAGANA, UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS)
+  /*val japaneseUnicodeBlock = new mutable.HashSet[UnicodeBlock]()
+      .+=(UnicodeBlock.HIRAGANA, UnicodeBlock.HIRAGANA, UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS)*/
 
   def createTweetsWordCount(ssc: StreamingContext, slideInterval: Duration): StreamingContext = {
 
@@ -43,34 +39,32 @@ object Streaming extends LogControlExperimentFigure{
         case e: IllegalMonitorStateException => logger.error("C", e.printStackTrace())
       }*/
 
-        val word = s.substring(0, 5)
-        try {
-          System.out.println("Word = " + word)
-        } catch {
-          case e: IndexOutOfBoundsException =>
-            logger.error("", e.printStackTrace())
-        }
+      val validator = new Validator
 
-        val charArrayWord = word.toCharArray
-        charArrayWord.foreach( s =>
-          try {
-            if (japaneseUnicodeBlock.contains(UnicodeBlock.of(s))) {
-              throw new UnicodeBlockException()
-            }
-          } catch {
-            case e: UnicodeBlockException =>
-              logger.error("", e.printStackTrace())
-          }
-        )
+      try {
+      if (!validator.isChackWordLengh(s)) {
+        throw new WordLengthException()
+      }
+      } catch {
+        case e: Exception =>
+          logger.error("Tweet word is too long", e)
+      }
 
-        try {
-          if (!word.startsWith("#")) {
-            throw new IllegalTweetException()
-          }
-        } catch {
-          case e: IllegalTweetException =>
-            logger.error("", e.printStackTrace())
+      try {
+        if(validator.isJpananesUnicodeBlock(s)) {
+          throw new UnicodeBlockException()
         }
+      } catch {
+        case e: Exception =>
+          logger.error("Japanese word contains Tweet messages", e)
+      }
+
+      try {
+        validator.isExistsHashTag(s)
+      } catch {
+        case e: HashTagException =>
+          logger.error("Hash Tag contains Tweet messages", e)
+      }
     })
 
     // Use Filtering Method.
@@ -89,8 +83,3 @@ object Streaming extends LogControlExperimentFigure{
     ssc
   }
 }
-
-final case class UnicodeBlockException(private val message: String = "",
-                                       private val cause: Throwable = None.orNull)extends Exception(message, cause)
-final case class IllegalTweetException(private val message: String = "",
-                                       private val cause: Throwable = None.orNull)extends Exception(message, cause)
