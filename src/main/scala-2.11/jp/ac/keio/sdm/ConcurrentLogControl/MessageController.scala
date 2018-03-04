@@ -16,6 +16,6 @@ object MessageController {
 
   def getMessage(messageID: String): String = {
     val messageBody = properties.getProperty(messageID)
-    messageBody
+    messageID + " " + messageBody
   }
 }

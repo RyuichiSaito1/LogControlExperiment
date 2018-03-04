@@ -1,7 +1,6 @@
 /* Copyright (c) 2017 Ryuichi Saito, Keio University. All right reserved. */
 package jp.ac.keio.sdm.ConcurrentLogControl
 
-import org.apache.spark.storage.BlockManagerMessages.HasCachedBlocks
 import org.apache.spark.streaming.twitter.TwitterUtils
 import org.apache.spark.streaming.{Duration, StreamingContext}
 
@@ -48,7 +47,7 @@ object Streaming extends LogControlExperimentFigure{
       }
       } catch {
         case e: Exception =>
-          logger.error("Tweet word is too long", e)
+          logger.error(MessageController.getMessage("EXP-E000001"), e)
       }
 
       try {
@@ -57,14 +56,14 @@ object Streaming extends LogControlExperimentFigure{
         }
       } catch {
         case e: Exception =>
-          logger.error("Japanese word contains Tweet messages", e)
+          logger.error(MessageController.getMessage("EXP-E000002"), e)
       }
 
       try {
         validator.isExistsHashTag(s)
       } catch {
         case e: Exception =>
-          logger.error("Hash Tag contains Tweet messages", e)
+          logger.error(MessageController.getMessage("EXP-E000003"), e)
       }
     })
 
