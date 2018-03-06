@@ -20,9 +20,9 @@ object LogControlExperiment extends LogControlExperimentFigure {
 
     // Configure Spark Properties.
     // Development Mode
-    val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName).set("spark.task.maxFailures","100")
+    // val sparkConf = new SparkConf().setMaster(SparkUrl).setAppName(ApplicationName).set("spark.task.maxFailures","100")
     // Product Mode
-    // val sparkConf = new SparkConf().setAppName(ApplicationName)
+    val sparkConf = new SparkConf().setAppName(ApplicationName)
     val ssc = new StreamingContext(sparkConf, SlideInterval)
 
     // Create a Log Filter that periodically output logs from a Log Cache.

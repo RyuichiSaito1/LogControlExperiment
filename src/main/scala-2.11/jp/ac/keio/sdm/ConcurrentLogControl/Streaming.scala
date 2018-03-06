@@ -77,9 +77,9 @@ object Streaming extends LogControlExperimentFigure{
     // Compute the counts of each hashtag by window.
     val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
     // Development Mode
-    windowedhashTagCountStream.saveAsTextFiles("tweets")
+    // windowedhashTagCountStream.saveAsTextFiles("tweets")
     // Product Mode
-    // windowedhashTagCountStream.saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/elasticmapreduce/tweets")
+    windowedhashTagCountStream.saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/elasticmapreduce/tweets/tweets")
     ssc
   }
 }

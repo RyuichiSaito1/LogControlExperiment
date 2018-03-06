@@ -17,7 +17,10 @@
         <!--<file>/mnt/var/log/application/application.log</file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- <fileNamePattern>/var/log/info-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern> -->
+            <!--Development Mode-->
             <fileNamePattern>/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/scala-2.11/jp/ac/keio/sdm/ConcurrentLogControl/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!--Product Mode-->
+            <!--<fileNamePattern>/jp/ac/keio/sdm/ConcurrentLogControl/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>100MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
