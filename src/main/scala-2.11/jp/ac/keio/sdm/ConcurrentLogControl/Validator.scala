@@ -21,7 +21,7 @@ class Validator {
     val charArray = word.toCharArray
     charArray.foreach(s =>
       if (japaneseUnicodeBlock.contains(UnicodeBlock.of(s))) {
-        true
+        return true
       }
     )
     false

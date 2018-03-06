@@ -28,14 +28,14 @@ object Streaming extends LogControlExperimentFigure{
 
         val validator = new Validator
 
-        try {
+        /*try {
         if (!validator.isChackWordLengh(s)) {
           throw new WordLengthException()
         }
         } catch {
           case e: Exception =>
             logger.error(MessageController.getMessage("EXP-E000001"), e)
-        }
+        }*/
 
         try {
           if(validator.isJpananesUnicodeBlock(s)) {
@@ -46,12 +46,12 @@ object Streaming extends LogControlExperimentFigure{
             logger.error(MessageController.getMessage("EXP-E000002"), e)
         }
 
-        try {
+        /*try {
           validator.isExistsHashTag(s)
         } catch {
           case e: Exception =>
             logger.error(MessageController.getMessage("EXP-E000003"), e)
-        }
+        }*/
       })
 
     // Use Filtering Method.
@@ -64,9 +64,9 @@ object Streaming extends LogControlExperimentFigure{
     // Compute the counts of each hashtag by window.
     val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
     // Development Mode
-    // windowedhashTagCountStream.saveAsTextFiles("tweets")
+    windowedhashTagCountStream.saveAsTextFiles("tweets")
     // Product Mode
-    windowedhashTagCountStream.saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/elasticmapreduce/tweets/tweets")
+    // windowedhashTagCountStream.saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/elasticmapreduce/tweets/tweets")
     ssc
   }
 }
