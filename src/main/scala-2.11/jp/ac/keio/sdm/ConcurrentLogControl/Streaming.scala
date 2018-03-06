@@ -25,47 +25,34 @@ object Streaming extends LogControlExperimentFigure{
     // Throw Exception
     val hashTagStream = twitterStream.map(_.getText).flatMap(_.split(" "))
       .map(s => {
-      /*  def randomInt(n: Double): Int = floor(random * n).toInt
-      try {
-        randomInt(21) match {
-          case 1 | 4 | 7 | 10 | 13 | 16 | 19 => s(10000)
-          case 2 | 5 | 8 | 11 | 14 | 17 => s.toInt
-          case 3 | 6 | 9 | 12 | 15 | 18 => s.getClass()
-          case 0 | 20 => s.wait()
+
+        val validator = new Validator
+
+        try {
+        if (!validator.isChackWordLengh(s)) {
+          throw new WordLengthException()
         }
-      } catch {
-        case e: IllegalArgumentException => logger.error("A", e.printStackTrace())
-        case e: NumberFormatException => logger.error("B", e.printStackTrace())
-        case e: IllegalMonitorStateException => logger.error("C", e.printStackTrace())
-      }*/
-
-      val validator = new Validator
-
-      try {
-      if (!validator.isChackWordLengh(s)) {
-        throw new WordLengthException()
-      }
-      } catch {
-        case e: Exception =>
-          logger.error(MessageController.getMessage("EXP-E000001"), e)
-      }
-
-      try {
-        if(validator.isJpananesUnicodeBlock(s)) {
-          throw new UnicodeBlockException()
+        } catch {
+          case e: Exception =>
+            logger.error(MessageController.getMessage("EXP-E000001"), e)
         }
-      } catch {
-        case e: Exception =>
-          logger.error(MessageController.getMessage("EXP-E000002"), e)
-      }
 
-      try {
-        validator.isExistsHashTag(s)
-      } catch {
-        case e: Exception =>
-          logger.error(MessageController.getMessage("EXP-E000003"), e)
-      }
-    })
+        try {
+          if(validator.isJpananesUnicodeBlock(s)) {
+            throw new UnicodeBlockException()
+          }
+        } catch {
+          case e: Exception =>
+            logger.error(MessageController.getMessage("EXP-E000002"), e)
+        }
+
+        try {
+          validator.isExistsHashTag(s)
+        } catch {
+          case e: Exception =>
+            logger.error(MessageController.getMessage("EXP-E000003"), e)
+        }
+      })
 
     // Use Filtering Method.
     /*val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
