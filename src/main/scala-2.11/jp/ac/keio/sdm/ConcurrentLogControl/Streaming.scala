@@ -23,7 +23,7 @@ object Streaming extends LogControlExperimentFigure{
     // Parse the tweets and gather the hashTags.
     // val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" ")).filter(_.startsWith("#"))
     // Throw Exception
-    val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
+    val hashTagStream = twitterStream.map(_.getText).flatMap(_.split(" "))
       .map(s => {
       /*  def randomInt(n: Double): Int = floor(random * n).toInt
       try {
