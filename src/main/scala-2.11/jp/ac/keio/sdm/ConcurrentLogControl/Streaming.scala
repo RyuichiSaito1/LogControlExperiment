@@ -28,14 +28,14 @@ object Streaming extends LogControlExperimentFigure{
 
         val validator = new Validator
 
-        /*try {
-        if (!validator.isChackWordLengh(s)) {
-          throw new WordLengthException()
-        }
+        try {
+          if(validator.isExistsHashTag(s)) {
+            throw new HashTagException()
+          }
         } catch {
           case e: Exception =>
-            logger.error(MessageController.getMessage("EXP-E000001"), e)
-        }*/
+            logger.error(MessageController.getMessage("EXP-E000003"), e)
+        }
 
         try {
           if(validator.isJpananesUnicodeBlock(s)) {
@@ -46,12 +46,14 @@ object Streaming extends LogControlExperimentFigure{
             logger.error(MessageController.getMessage("EXP-E000002"), e)
         }
 
-        /*try {
-          validator.isExistsHashTag(s)
+        try {
+        if (!validator.isChackWordLengh(s)) {
+          throw new WordLengthException()
+        }
         } catch {
           case e: Exception =>
-            logger.error(MessageController.getMessage("EXP-E000003"), e)
-        }*/
+            logger.error(MessageController.getMessage("EXP-E000001"), e)
+        }
       })
 
     // Use Filtering Method.
