@@ -14,12 +14,13 @@ libraryDependencies ++= Seq(
   // Development Mode.
   "org.apache.spark" %% "spark-streaming" % "2.0.1",
   // Product Mode.
-  // "org.apache.spark" %% "spark-streaming" % "2.0.1" % "provided",
+  // "org.apache.spark" %% "spark-streaming" % "2.0.1" % "provided",s
   // This project forked from scala-time since it seems that scala-time is no longer maintained.
   "com.github.nscala-time" %% "nscala-time" % "2.16.0",
   // There is compatible with Spark 2.x.
   // Must match version with "spark-streaming".
-  "org.apache.bahir" %% "spark-streaming-twitter" % "2.0.1" exclude("org.spark-project.spark", "unused"),
+  // "org.apache.bahir" %% "spark-streaming-twitter" % "2.0.1" exclude("org.spark-project.spark", "unused"),
+  "org.apache.bahir" %% "spark-streaming-twitter" % "2.2.0" exclude("org.spark-project.spark", "unused"),
   "org.apache.lucene" % "lucene-analyzers-common" % "6.4.0",
   "org.apache.lucene" % "lucene-analyzers-kuromoji" % "6.4.0",
   // Scala Logging dependencies

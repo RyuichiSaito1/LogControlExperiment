@@ -2,7 +2,7 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
 import org.apache.spark.streaming.twitter.TwitterUtils
-import org.apache.spark.streaming.{Duration, StreamingContext}
+import org.apache.spark.streaming.{Duration, Seconds, StreamingContext}
 
 /**
   * Created by Ryuichi on 3/23/2017 AD.
@@ -34,7 +34,7 @@ object Streaming extends LogControlExperimentFigure{
           }
         } catch {
           case e: Exception =>
-            logger.error(MessageController.getMessage("EXP-E000003"), e)
+            logger.error(MessageController.getMessage("EXP-E000001"), e)
         }
 
         try {
@@ -52,7 +52,7 @@ object Streaming extends LogControlExperimentFigure{
         }
         } catch {
           case e: Exception =>
-            logger.error(MessageController.getMessage("EXP-E000001"), e)
+            logger.error(MessageController.getMessage("EXP-E000003"), e)
         }
       })
 
@@ -64,9 +64,10 @@ object Streaming extends LogControlExperimentFigure{
       .map(s => try {s(10000)} catch { case runtime : RuntimeException => { logger.warn("EXP-E000001", runtime)}})*/
 
     // Compute the counts of each hashtag by window.
-    val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
+    // val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
+    val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, Seconds(20), Seconds(10))
     // Development Mode
-    windowedhashTagCountStream.saveAsTextFiles("tweets")
+      windowedhashTagCountStream.saveAsTextFiles("tweets")
     // Product Mode
     // windowedhashTagCountStream.saveAsTextFiles("s3://aws-logs-757020086170-us-west-2/elasticmapreduce/tweets/tweets")
     ssc
