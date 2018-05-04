@@ -47,9 +47,18 @@ object Streaming extends LogControlExperimentFigure{
         }
 
         try {
-        if (!validator.isChackWordLengh(s)) {
-          throw new WordLengthException()
+          if (!validator.isChackWordLengh(s)) {
+            throw new NumericException()
+          }
+        } catch {
+          case e: Exception =>
+            logger.error(MessageController.getMessage("EXP-E000004"), e)
         }
+
+        try {
+          if (!validator.isChackWordLengh(s)) {
+            throw new WordLengthException()
+          }
         } catch {
           case e: Exception =>
             logger.error(MessageController.getMessage("EXP-E000003"), e)

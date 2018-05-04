@@ -8,7 +8,7 @@ import scala.collection.mutable
 class Validator {
 
   def isChackWordLengh(word: String): Boolean = {
-    if (word.length < 5) {
+    if (word.length < 4) {
       true
     } else {
       false
@@ -33,6 +33,13 @@ class Validator {
     }
     false
   }
+
+  def isExistsNumeric(word: String): Boolean = {
+    if (word forall( _.isDigit)) {
+      true
+    }
+    false
+  }
 }
 final case class UnicodeBlockException(private val message: String = "",
                                        private val cause: Throwable = None.orNull)extends Exception(message, cause)
@@ -40,3 +47,5 @@ final case class HashTagException(private val message: String = "",
                                   private val cause: Throwable = None.orNull)extends Exception(message, cause)
 final case class WordLengthException(private val message: String = "",
                                       private val cause: Throwable = None.orNull)extends Exception(message, cause)
+final case class NumericException(private val message: String = "",
+                                     private val cause: Throwable = None.orNull)extends Exception(message, cause)
