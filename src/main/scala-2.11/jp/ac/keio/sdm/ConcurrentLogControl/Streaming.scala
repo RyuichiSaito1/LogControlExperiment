@@ -28,6 +28,7 @@ object Streaming extends LogControlExperimentFigure{
 
         val validator = new Validator
 
+        // Tentative Check Exception 1
         try {
           if(validator.isExistsHashTag(s)) {
             throw new HashTagException()
@@ -37,6 +38,7 @@ object Streaming extends LogControlExperimentFigure{
             logger.error(MessageController.getMessage("EXP-E000001"), e)
         }
 
+        // Tentative Check Exception 2
         try {
           if(validator.isJpananesUnicodeBlock(s)) {
             throw new UnicodeBlockException()
@@ -46,15 +48,7 @@ object Streaming extends LogControlExperimentFigure{
             logger.error(MessageController.getMessage("EXP-E000002"), e)
         }
 
-        try {
-          if (!validator.isChackWordLengh(s)) {
-            throw new NumericException()
-          }
-        } catch {
-          case e: Exception =>
-            logger.error(MessageController.getMessage("EXP-E000004"), e)
-        }
-
+        // Tentative Check Exception 3
         try {
           if (!validator.isChackWordLengh(s)) {
             throw new WordLengthException()
@@ -63,12 +57,25 @@ object Streaming extends LogControlExperimentFigure{
           case e: Exception =>
             logger.error(MessageController.getMessage("EXP-E000003"), e)
         }
+
+        // Tentative Check Exception 4
+        try {
+          if (!validator.isExistsNumeric(s)) {
+            throw new NumericException()
+          }
+        } catch {
+          case e: Exception =>
+            logger.error(MessageController.getMessage("EXP-E000004"), e)
+        }
+
+        // Tentative Runtime Exception 1
+        val forwardMessage = s(10000)
       })
 
     // Use Filtering Method.
     /*val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
         .map(s => try {s(10000)} catch { case runtime : RuntimeException => { LogCache.putIfAbsent("EXP-E000001", runtime)}})*/
-      // Output to file.
+    // Output to file.
     /*val hashTagStream = twitterStream.filter(_.getLang == "en").map(_.getText).flatMap(_.split(" "))
       .map(s => try {s(10000)} catch { case runtime : RuntimeException => { logger.warn("EXP-E000001", runtime)}})*/
 
