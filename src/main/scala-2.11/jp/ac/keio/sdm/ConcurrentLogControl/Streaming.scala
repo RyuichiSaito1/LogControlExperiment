@@ -69,7 +69,10 @@ object Streaming extends LogControlExperimentFigure{
         }
 
         // Tentative Runtime Exception 1
-        val forwardMessage = s(10000)
+        val forwardMessage = s(10)
+
+        val Message = s.toInt
+
       })
 
     // Use Filtering Method.
