@@ -2,20 +2,17 @@
 package jp.ac.keio.sdm.ConcurrentLogControl
 
 import org.apache.spark.streaming.twitter.TwitterUtils
-import org.apache.spark.streaming.{Duration, Seconds, StreamingContext}
+import org.apache.spark.streaming.{Seconds, StreamingContext}
 
 /**
   * Created by Ryuichi on 3/23/2017 AD.
   */
 object Streaming extends LogControlExperimentFigure{
 
-  // Compute the top hashtags for the last 5 seconds
-  val windowLength = new Duration(5 * 1000)
-
   /*val japaneseUnicodeBlock = new mutable.HashSet[UnicodeBlock]()
       .+=(UnicodeBlock.HIRAGANA, UnicodeBlock.HIRAGANA, UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS)*/
 
-  def createTweetsWordCount(ssc: StreamingContext, slideInterval: Duration): StreamingContext = {
+  def createTweetsWordCount(ssc: StreamingContext, windowLength: Long, slidingInterval: Long): StreamingContext = {
 
     // Create a Twitter DStream for the input source.
     val twitterStream = TwitterUtils.createStream(ssc, None)
@@ -83,8 +80,8 @@ object Streaming extends LogControlExperimentFigure{
       .map(s => try {s(10000)} catch { case runtime : RuntimeException => { logger.warn("EXP-E000001", runtime)}})*/
 
     // Compute the counts of each hashtag by window.
-    // val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, windowLength, slideInterval)
-    val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, Seconds(20), Seconds(10))
+    // Reduce last 16 seconds of data, every 8 seconds
+    val windowedhashTagCountStream = hashTagStream.map((_, 1)).reduceByKeyAndWindow((x: Int, y: Int) => x + y, Seconds(windowLength), Seconds(slidingInterval))
     // Development Mode
       windowedhashTagCountStream.saveAsTextFiles("tweets")
     // Product Mode
