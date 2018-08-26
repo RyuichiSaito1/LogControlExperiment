@@ -22,7 +22,6 @@ object Streaming extends LogControlExperimentFigure{
     // Throw Exception
     val hashTagStream = twitterStream.map(_.getText).flatMap(_.split(" "))
       .map(s => {
-
         val validator = new Validator
 
         // Tentative Check Exception 1

@@ -30,7 +30,7 @@ class LogFilter extends LogControlExperimentFigure {
           val optionValue = LogCache.cache.get(headValue._1)
           // If Option value is null, Don't output the Exception Stacktrace.
           optionValue match {
-            case  Some(x) => logger.warn(headValue._1.toString + " -> " , x)
+            // case  Some(x) => logger.warn(headValue._1.toString + " -> " , x)
             case None => logger.warn(headValue._1.toString)
           }
         }

@@ -3,16 +3,20 @@ package jp.ac.keio.sdm.ConcurrentLogControl
 
 import java.util.Properties
 
-import com.typesafe.scalalogging.LazyLogging
+import org.apache.log4j.{Level, LogManager, Logger}
 
 /**
   * Created by Ryuichi on 4/3/2017 AD.
   */
-class LogControlExperimentFigure extends LazyLogging{
+class LogControlExperimentFigure {
 
   val properties = new Properties()
-  // Comment out at Product Mode.
-  properties.load(getClass.getResourceAsStream("/logControl.properties"))
+
+  // Initialize Log4j.
+  val logger = Logger.getLogger(this.getClass.getName)
+  properties.load(getClass.getClassLoader.getResourceAsStream("log4j.properties"))
+  val log = LogManager.getRootLogger()
+  log.setLevel(Level.WARN)
 
   MessageController.initialize()
 }

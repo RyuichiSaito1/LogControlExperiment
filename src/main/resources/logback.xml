@@ -11,6 +11,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/Users/Ryuichi/IdeaProjects/LogControlExperiment/src/main/scala-2.11/jp/ac/keio/sdm/ConcurrentLogControl/LogControlExmeriment.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
@@ -22,7 +23,7 @@
             <!--Product Mode-->
             <!--<fileNamePattern>/jp/ac/keio/sdm/ConcurrentLogControl/%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>100MB</maxFileSize>
+                <maxFileSize>1GB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
@@ -30,8 +31,8 @@
         </encoder>
     </appender>
 
-    <logger name = "org.apache.spark" level = "WARN" />
-    <logger name = "org.apache.spark.streaming.NetworkInputTracker" level = "INFO" />
+    <!--<logger name = "org.apache.spark" level = "WARN" />-->
+    <!--<logger name = "org.apache.spark.streaming.NetworkInputTracker" level = "INFO" />-->
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

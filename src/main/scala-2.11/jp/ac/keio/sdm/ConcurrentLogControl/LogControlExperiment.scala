@@ -9,7 +9,7 @@ import org.apache.spark.streaming.{Duration, StreamingContext}
   */
 object LogControlExperiment extends LogControlExperimentFigure {
 
-  val ThreadCount = "*"
+  val ThreadCount = "8"
   val ApplicationName = "LogControlExperiment"
   // Recompute the top hashtags every 2 second
   val BatchDuration = new Duration(2 * 1000)
